@@ -2,19 +2,15 @@ DIRS = statlib dynlib executable
 
 .PHONY: dirs $(DIRS)
 
-dirs : $(DIRS)
-
-$(DIRS):
-	$(MAKE) -C $@
-
-dynlib : statlib
-executable : dynlib
+build-dynlib : build-statlib
+build-executable : build-dynlib
 
 BUILDDIRS = $(DIRS:%=build-%)
-$(BUILDDIRS):
-	$(MAKE) -C $(@:build-%=%)
 
 all : $(BUILDDIRS)
+
+$(BUILDDIRS):
+	$(MAKE) -C $(@:build-%=%)
 
 CLEANDIRS = $(DIRS:%=clean-%)
 clean: $(CLEANDIRS)
