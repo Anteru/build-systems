@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build"  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+    <Import Project="$(VCTargetsPath)\Microsoft.CppCommon.targets" />
+    <ItemGroup>
+        <StaticLibraryFiles Include="statlib/StaticLibrarySource.cpp;statlib/tablegen.py"/>
+        <DynamicLibraryFiles Include="dynlib/DynamicLibrarySource.cpp;dynlib/DynamicLibraryHeader.h"/>
+        <ExecutableFiles Include="executable/ExecutableSource.cpp"/>
+    </ItemGroup>
+    <Target Name="StatLib" Inputs="@(StaticLibraryFiles)" Outputs="statlib.lib">
+        <Exec Command="python statlib/tablegen.py > table.cpp" Outputs="table.cpp">
+            <Output TaskParameter="Outputs" ItemName="GeneratedFiles"/>
+        </Exec>
+        <CL Sources="statlib/StaticLibrarySource.cpp"/>
+        <CL Sources="@(GeneratedFiles)"/>
+        <LIB Sources="StaticLibrarySource.obj;table.obj" OutputFile="statlib.lib"/>
+    </Target>
+    <Target Name="DynLib" DependsOnTargets="StatLib" Inputs="@(DynamicLibraryFiles);statlib.lib" Outputs="dynlib.dll">
+        <CL Sources="dynlib/DynamicLibrarySource.cpp" AdditionalIncludeDirectories="./statlib" PreprocessorDefinitions="BUILD_DYNAMIC_LIBRARY=1"/>
+        <Link Sources="DynamicLibrarySource.obj" OutputFile="dynlib.dll" AdditionalDependencies="statlib.lib" LinkDLL="true"/>
+    </Target>
+    <Target Name="Executable" DependsOnTargets="DynLib" Inputs="@(ExecutableFiles);dynlib.dll" Outputs="Executable.exe">
+        <CL Sources="executable/ExecutableSource.cpp" AdditionalIncludeDirectories="./dynlib" ExceptionHandling="Sync"/>
+        <Link Sources="ExecutableSource.obj" AdditionalDependencies="dynlib.lib" OutputFile="Executable.exe"/>
+    </Target>
+    <Target Name="Build" DependsOnTargets="Executable">
+    </Target>
+</Project>
