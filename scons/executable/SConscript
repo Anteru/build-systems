@@ -1,0 +1,2 @@
+Program('Executable', ['ExecutableSource.cpp'],
+    LIBS=['dynlib'], CPPPATH=['../dynlib'], LIBPATH=['../dynlib'])

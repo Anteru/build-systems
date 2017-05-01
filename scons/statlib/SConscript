@@ -1,0 +1,15 @@
+import os
+
+# This is needed so we get the python from PATH
+env = Environment(ENV = os.environ)
+
+env.Append (CPPPATH='#')
+p = os.path.abspath ('./tablegen.py')
+
+pyexec = 'python' if os.name == 'nt' else 'python3'
+env.Command ('table.cpp', 'tablegen.py', '{} {} > $TARGET'.format (pyexec, p))
+
+env.StaticLibrary('statlib', [
+    # This adds fPIC in a portable way
+    SharedObject ('StaticLibrarySource.cpp'), 
+    SharedObject ('table.cpp')])

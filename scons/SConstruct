@@ -1,0 +1,3 @@
+SConscript (['dynlib/SConscript',
+             'statlib/SConscript',
+             'executable/SConscript'])
