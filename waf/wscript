@@ -1,0 +1,11 @@
+top = '.'
+out = 'build'
+
+def options (opt):
+    opt.recurse ('statlib dynlib executable')
+
+def configure (conf):
+    conf.recurse ('statlib dynlib executable')
+
+def build (bld):
+    bld.recurse ('statlib dynlib executable')

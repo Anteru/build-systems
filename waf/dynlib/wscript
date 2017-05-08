@@ -1,0 +1,14 @@
+def options (opt):
+    opt.load ('compiler_cxx')
+
+def configure (conf):
+    conf.load ('compiler_cxx')
+
+def build (ctx):
+    ctx.shlib (
+        source = 'DynamicLibrarySource.cpp',
+        includes = ['.'],
+        export_includes = '.',
+        defines = ['BUILD_DYNAMIC_LIBRARY=1'],
+        target = 'dynlib',
+        use = 'statlib')

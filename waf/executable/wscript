@@ -1,0 +1,18 @@
+def options (opt):
+    opt.load ('compiler_cxx')
+
+def configure (conf):
+    conf.load ('compiler_cxx')
+
+    try:
+        conf.env.stash ()
+        conf.load ('msvc')
+        conf.env.CXXFLAGS.append ('/EHsc')
+    except:
+        conf.env.revert ()
+
+def build (ctx):
+    ctx.program (
+        source = 'ExecutableSource.cpp',
+        target = 'executable',
+        use = 'dynlib')
