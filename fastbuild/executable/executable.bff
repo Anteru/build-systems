@@ -1,0 +1,12 @@
+ObjectList("executable-obj")
+{
+    .CompilerInputPath = "executable"
+    .CompilerOutputPath = "out"
+    .CompilerOptions + " /Idynlib /EHsc"
+}
+
+Executable('executable')
+{
+    .LinkerOutput = 'executable.exe'
+    .Libraries = {'dynlib', 'executable-obj'}
+}

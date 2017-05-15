@@ -1,0 +1,16 @@
+Exec ("tablegen")
+{
+    .ExecExecutable = "C:\Program Files\Python 3.5\python.exe"
+    .ExecInput = "statlib\tablegen.py"
+    .ExecOutput = "statlib\table.cpp"
+    .ExecArguments = "%1"
+    .ExecUseStdOutAsOutput = true
+}
+
+Library("statlib")
+{
+    .LibrarianOutput = "statlib.lib"
+    .CompilerOutputPath = "out"
+    .CompilerInputPath = "statlib"
+    .PreBuildDependencies = "tablegen"
+}

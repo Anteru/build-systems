@@ -1,0 +1,62 @@
+.VSBasePath         = 'C:\Program Files (x86)\Microsoft Visual Studio 14.0'
+.WindowsSDKBasePath = 'C:\Program Files (x86)\Windows Kits\10'
+.WindowsLibPath    = '$WindowsSDKBasePath$\Lib\10.0.14393.0\um\x86'
+.WindowsIncludePath    = '$WindowsSDKBasePath$\Include\10.0.14393.0\um'
+.WindowsUcrtLibPath    = '$WindowsSDKBasePath$\Lib\10.0.14393.0\ucrt\x86'
+.WindowsUcrtIncludePath    = '$WindowsSDKBasePath$\Include\10.0.14393.0\ucrt'
+
+Settings
+{
+    .Environment = {
+                        "PATH=$VSBasePath$\Common7\IDE\;$VSBasePath$\VC\bin\",
+                        "TMP=C:\Windows\Temp",
+                        "SystemRoot=C:\Windows"
+    }
+}
+
+.Compiler = '$VSBasePath$\VC\bin\cl.exe'
+.CompilerOptions    = '"%1"' // Input
+                    + ' /Fo"%2"' // Output
+                    + ' /Z7' // Debug format (in .obj)
+                    + ' /c' // Compile only
+                    + ' /nologo' // No compiler spam
+                    + ' /W4' // Warning level 4
+                    + ' /WX' // Warnings as errors
+
+.Linker         = '$VSBasePath$\VC\bin\link.exe'
+.LinkerOptions  = ' /OUT:"%2"' // Output
+                + ' "%1"' // Input
+                + ' /WX' // Warnings as errors
+                + ' /NOLOGO' // No linker spam
+                + ' /DEBUG' // Keep debug info when linking
+
+.LibPaths   = ' /LIBPATH:"$VSBasePath$\VC\lib"'
+            + ' /LIBPATH:"$WindowsLibPath$"'
+            + ' /LIBPATH:"$WindowsUcrtLibPath$"'
+
+.LinkerOptions + .LibPaths
+
+.DLLOptions =
+[
+	.CompilerOptions	+ ' /DLL /MT'
+	.LinkerOptions		+ ' /DLL'
+]
+
+.Librarian	        = '$VSBasePath$\VC\bin\lib.exe'
+.LibrarianOptions   = '/WX /NOLOGO /OUT:"%2" "%1"'
+
+.BaseIncludePaths   = ' /I"./"'
+                    + ' /I"$VSBasePath$\VC\Include"'
+                    + ' /I"$WindowsIncludePath$"'
+                    + ' /I"$WindowsUcrtIncludePath$"'
+
+.CompilerOptions + .BaseIncludePaths
+
+#include "statlib\statlib.bff"
+#include "dynlib\dynlib.bff"
+#include "executable\executable.bff"
+
+Alias('All')
+{
+    .Targets = {'tablegen', 'statlib', 'dynlib-obj', 'dynlib', 'executable'}
+}

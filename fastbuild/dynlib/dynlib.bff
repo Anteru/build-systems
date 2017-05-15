@@ -1,0 +1,14 @@
+ObjectList("dynlib-obj")
+{
+    .CompilerInputPath = "dynlib"
+    .CompilerOutputPath = "out"
+    .CompilerOptions + " /Istatlib /DBUILD_DYNAMIC_LIBRARY=1"
+}
+
+DLL("dynlib")
+{
+    Using (.DLLOptions)
+
+    .LinkerOutput = "dynlib.dll"
+    .Libraries = {"statlib" ,"dynlib-obj"}
+}
