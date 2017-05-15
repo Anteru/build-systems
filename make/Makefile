@@ -14,5 +14,7 @@ $(BUILDDIRS):
 
 CLEANDIRS = $(DIRS:%=clean-%)
 clean: $(CLEANDIRS)
-$(CLEANDIRS): 
+$(CLEANDIRS):
 	$(MAKE) -C $(@:clean-%=%) clean
+
+.DEFAULT_GOAL := all

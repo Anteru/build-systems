@@ -1,5 +1,5 @@
 LDFLAGS += -shared -L../statlib -lStaticLibrary
-CPPFLAGS += -I../statlib -DDBUILD_DYNAMIC_LIBRARY=1
+CPPFLAGS += -I../statlib -DDBUILD_DYNAMIC_LIBRARY=1 -fPIC
 
 TARGET = libDynamicLibrary.so
 OBJ = DynamicLibrarySource.o
