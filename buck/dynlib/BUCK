@@ -1,0 +1,10 @@
+cxx_library(
+	name = "dynlib",
+	srcs = ["DynamicLibrarySource.cpp"],
+	headers = ["DynamicLibraryHeader.h"],
+	exported_headers = ["DynamicLibraryHeader.h"],
+	deps = ["//statlib:statlib"],
+	visibility = ["PUBLIC"],
+	preprocessor_flags = ["-DBUILD_DYNAMIC_LIBRARY=1"],
+	link_style = "shared"
+)

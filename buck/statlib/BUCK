@@ -1,0 +1,15 @@
+genrule(
+	name = "gentable",
+	srcs = ["tablegen.py"],
+	out = "table.cpp",
+	cmd = "python3 $SRCS > $OUT"
+)
+
+cxx_library(
+	name = "statlib",
+	srcs = ["StaticLibrarySource.cpp", ":gentable"],
+	headers = ["StaticLibraryHeader.h"],
+	visibility = ["//dynlib:dynlib"],
+	exported_headers = ["StaticLibraryHeader.h"],
+	link_style = "static_pic"
+)
