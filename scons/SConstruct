@@ -1,3 +1,10 @@
+import os
+
+# This is needed so we get the python from PATH
+env = Environment(ENV = os.environ)
+env['MY_PYTHON'] = 'python' if os.name == 'nt' else 'python3'
+
 SConscript (['dynlib/SConscript',
              'statlib/SConscript',
-             'executable/SConscript'])
+             'executable/SConscript'],
+             exports=['env'])
