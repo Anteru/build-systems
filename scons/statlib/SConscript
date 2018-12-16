@@ -4,10 +4,9 @@ import os
 env = Environment(ENV = os.environ)
 
 env.Append (CPPPATH='#')
-p = os.path.abspath ('./tablegen.py')
 
 pyexec = 'python' if os.name == 'nt' else 'python3'
-env.Command ('table.cpp', 'tablegen.py', '{} {} > $TARGET'.format (pyexec, p))
+env.Command ('table.cpp', 'tablegen.py', '{} $SOURCE > $TARGET'.format (pyexec))
 
 env.StaticLibrary('statlib', [
     # This adds fPIC in a portable way
