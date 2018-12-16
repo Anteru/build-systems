@@ -1,2 +1,4 @@
-Program('Executable', ['ExecutableSource.cpp'],
+Import('env')
+
+env.Program('Executable', ['ExecutableSource.cpp'],
     LIBS=['dynlib'], CPPPATH=['../dynlib'], LIBPATH=['../dynlib'])

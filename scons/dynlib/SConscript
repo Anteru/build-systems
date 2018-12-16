@@ -1,3 +1,5 @@
-SharedLibrary ('dynlib', ['DynamicLibrarySource.cpp'],
+Import('env')
+
+env.SharedLibrary ('dynlib', ['DynamicLibrarySource.cpp'],
     LIBS=['statlib'], LIBPATH=['../statlib'],
     CPPPATH=['.', '../statlib'], CPPDEFINES = ['BUILD_DYNAMIC_LIBRARY=1'])
